@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Scholar Alert Tracker — Innovation & Sustainability</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>Scholar Alert Tracker &#8212; Innovation &amp; Sustainability</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&amp;family=DM+Sans:wght@300;400;500;600&amp;family=DM+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
 <style>
 :root {
   --bg: #F7F5F0;
@@ -63,6 +63,1218 @@ body {
 .header-title {
   font-family: 'DM Serif Display', serif;
   font-size: 18px;
+  color: #fff;
+  letter-spacing: 0.01em;
+}
+.header-sub {
+  font-size: 11px;
+  color: rgba(255,255,255,0.55);
+  margin-top: 1px;
+}
+.header-right { display: flex; align-items: center; gap: 10px; }
+.api-status {
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-family: 'DM Mono', monospace;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.8);
+  background: rgba(255,255,255,0.08);
+  transition: all 0.15s;
+}
+.api-status:hover { background: rgba(255,255,255,0.15); }
+.api-status.connected { color: #7DCEA0; border-color: rgba(125,206,160,0.4); }
+
+/* ── LAYOUT ── */
+.layout { display: flex; min-height: calc(100vh - 60px); }
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  position: sticky;
+  top: 60px;
+  height: calc(100vh - 60px);
+  overflow-y: auto;
+}
+.sidebar-section { margin-bottom: 4px; }
+.sidebar-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0 18px;
+  margin-bottom: 4px;
+  margin-top: 16px;
+}
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 18px;
+  font-size: 13px;
+  color: var(--text2);
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  transition: all 0.12s;
+  user-select: none;
+}
+.nav-item:hover { background: var(--surface2); color: var(--text); }
+.nav-item.active {
+  background: var(--accent-light);
+  color: var(--accent);
+  border-left-color: var(--accent2);
+  font-weight: 500;
+}
+.nav-dot {
+  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+}
+.nav-count {
+  margin-left: auto;
+  font-size: 11px;
+  background: var(--surface2);
+  color: var(--text3);
+  padding: 1px 6px;
+  border-radius: 10px;
+  font-family: 'DM Mono', monospace;
+}
+.nav-item.active .nav-count { background: var(--accent2); color: #fff; }
+
+/* ── MAIN ── */
+.main { flex: 1; padding: 28px 32px; max-width: 900px; overflow-x: hidden; }
+
+/* ── PANELS ── */
+.panel { display: none; }
+.panel.active { display: block; }
+
+/* ── PAGE TITLE ── */
+.page-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 26px;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.page-sub { font-size: 13px; color: var(--text2); margin-bottom: 24px; }
+
+/* ── STATS ROW ── */
+.stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; margin-bottom: 24px; }
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+}
+.stat-card.clickable {
+  cursor: pointer;
+  transition: box-shadow 0.15s, border-color 0.15s, transform 0.12s;
+}
+.stat-card.clickable:hover {
+  box-shadow: var(--shadow);
+  border-color: var(--accent2);
+  transform: translateY(-1px);
+}
+.stat-card.clickable .stat-label { color: var(--accent2); }
+
+/* ── GAPS MODAL ── */
+.gaps-overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 300;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 40px 16px;
+  overflow-y: auto;
+}
+.gaps-overlay.open { display: flex; }
+.gaps-modal {
+  background: var(--surface);
+  border-radius: var(--radius);
+  width: 640px;
+  max-width: 100%;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+  overflow: hidden;
+  position: relative;
+}
+.gaps-modal-header {
+  background: var(--accent);
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.gaps-modal-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 20px;
+  color: #fff;
+}
+.gaps-modal-sub { font-size: 12px; color: rgba(255,255,255,0.6); margin-top: 2px; }
+.gaps-close {
+  background: rgba(255,255,255,0.15);
+  border: none;
+  color: #fff;
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.15s;
+}
+.gaps-close:hover { background: rgba(255,255,255,0.28); }
+.gaps-modal-body { padding: 20px 24px; }
+.gap-item {
+  display: flex;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background 0.12s;
+  border-radius: var(--radius-sm);
+  padding-left: 8px;
+  padding-right: 8px;
+}
+.gap-item:last-child { border-bottom: none; }
+.gap-item:hover { background: var(--surface2); }
+.gap-letter {
+  font-family: 'DM Serif Display', serif;
+  font-size: 28px;
+  width: 42px; height: 42px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.gap-letter-A { background: var(--teal-light); color: var(--teal); }
+.gap-letter-B { background: var(--purple-light); color: var(--purple); }
+.gap-letter-C { background: var(--amber-light); color: var(--amber); }
+.gap-letter-D { background: var(--coral-light); color: var(--coral); }
+.gap-content { flex: 1; }
+.gap-cat-name { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+.gap-text { font-size: 12px; color: var(--text2); line-height: 1.6; }
+.gap-arrow { font-size: 16px; color: var(--text3); align-self: center; flex-shrink: 0; }
+.gap-footer { padding: 12px 24px; background: var(--surface2); border-top: 1px solid var(--border); font-size: 11px; color: var(--text3); }
+.stat-n { font-family: 'DM Serif Display', serif; font-size: 32px; color: var(--accent); }
+.stat-label { font-size: 11px; color: var(--text2); margin-top: 2px; }
+
+/* ── SIGNAL BOX ── */
+.signal-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-sm);
+}
+.card-label {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 12px;
+}
+.signal-row {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+.signal-row:last-child { border-bottom: none; }
+.signal-n {
+  font-family: 'DM Serif Display', serif;
+  font-size: 20px;
+  color: var(--accent);
+  min-width: 28px;
+  flex-shrink: 0;
+}
+.signal-text { color: var(--text2); flex: 1; }
+
+/* ── TREND BARS ── */
+.trend-row { display: flex; align-items: center; gap: 10px; padding: 6px 0; border-bottom: 1px solid var(--border); }
+.trend-row:last-child { border-bottom: none; }
+.trend-label { font-size: 12px; color: var(--text); flex: 1; }
+.trend-bar-wrap { width: 120px; height: 6px; background: var(--surface2); border-radius: 3px; overflow: hidden; }
+.trend-bar { height: 100%; border-radius: 3px; transition: width 0.4s ease; }
+.trend-count { font-size: 12px; color: var(--text2); min-width: 20px; text-align: right; font-family: 'DM Mono', monospace; }
+
+/* ── PAPER CARDS ── */
+.cat-intro { font-size: 13px; color: var(--text2); margin-bottom: 16px; line-height: 1.6; }
+.paper-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.15s;
+}
+.paper-card:hover { box-shadow: var(--shadow); }
+.paper-title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 2px; line-height: 1.45; }
+.paper-meta { font-size: 11px; color: var(--text3); margin-bottom: 8px; font-family: 'DM Mono', monospace; }
+.pill-row { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
+.pill {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 20px;
+  letter-spacing: 0.02em;
+}
+.pill-theory { background: var(--purple-light); color: var(--purple); }
+.pill-method { background: var(--teal-light); color: var(--teal); }
+.pill-gap { background: var(--amber-light); color: var(--amber); }
+.pill-alert { background: var(--surface2); color: var(--text2); }
+.pill-new { background: #DBEAFE; color: #1E40AF; }
+.paper-finding { font-size: 12px; color: var(--text2); line-height: 1.55; }
+.paper-finding strong { color: var(--text); font-weight: 500; }
+.paper-links { display: flex; align-items: center; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+.paper-link {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 11px; font-weight: 600;
+  padding: 3px 9px; border-radius: 20px;
+  text-decoration: none; transition: all 0.15s;
+  border: 1px solid;
+}
+.paper-link-scholar {
+  background: var(--accent-light); color: var(--accent2);
+  border-color: #A9CCE3;
+}
+.paper-link-scholar:hover { background: #BDD7EA; }
+.paper-link-doi {
+  background: var(--teal-light); color: var(--teal);
+  border-color: #A2D9C5;
+}
+.paper-link-doi:hover { background: #A9DFCB; }
+.paper-link-add {
+  background: transparent; color: var(--text3);
+  border-color: var(--border2); cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+}
+.paper-link-add:hover { background: var(--surface2); color: var(--text2); }
+.doi-edit-row {
+  display: none; align-items: center; gap: 6px; margin-top: 8px;
+}
+.doi-edit-row.open { display: flex; }
+.doi-edit-input {
+  flex: 1; padding: 5px 9px;
+  border: 1px solid var(--border2); border-radius: var(--radius-sm);
+  font-family: 'DM Mono', monospace; font-size: 11px;
+  background: var(--bg); color: var(--text);
+  min-width: 0;
+}
+.doi-edit-input:focus { outline: none; border-color: var(--accent2); }
+.doi-save-btn {
+  padding: 5px 10px; border-radius: var(--radius-sm);
+  font-size: 11px; font-weight: 600; cursor: pointer;
+  background: var(--accent); color: #fff; border: none;
+  white-space: nowrap;
+}
+.doi-save-btn:hover { background: var(--accent2); }
+.doi-cancel-btn {
+  padding: 5px 10px; border-radius: var(--radius-sm);
+  font-size: 11px; cursor: pointer;
+  background: var(--surface2); color: var(--text2);
+  border: 1px solid var(--border2); white-space: nowrap;
+}
+.doi-cancel-btn:hover { background: var(--border); }
+
+/* ── GAP BOX ── */
+.gap-box {
+  background: var(--amber-light);
+  border: 1px solid #F0D9B5;
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--amber);
+  line-height: 1.6;
+}
+.gap-box strong { font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; display: block; margin-bottom: 4px; font-weight: 700; }
+
+/* ── CAT HEADER ── */
+.cat-section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+.cat-badge {
+  font-family: 'DM Serif Display', serif;
+  font-size: 22px;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.cat-badge-A { background: var(--teal-light); color: var(--teal); }
+.cat-badge-B { background: var(--purple-light); color: var(--purple); }
+.cat-badge-C { background: var(--amber-light); color: var(--amber); }
+.cat-badge-D { background: var(--coral-light); color: var(--coral); }
+.cat-name { font-family: 'DM Serif Display', serif; font-size: 20px; }
+.cat-desc { font-size: 12px; color: var(--text2); }
+
+/* ── ADD ALERT PANEL ── */
+.add-step {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-sm);
+}
+.step-header { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+.step-badge {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.step-title { font-size: 14px; font-weight: 600; color: var(--text); }
+.step-sub { font-size: 12px; color: var(--text2); margin-bottom: 12px; line-height: 1.6; padding-left: 36px; }
+textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 10px 13px;
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-sm);
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--text);
+  background: var(--bg);
+  resize: vertical;
+  line-height: 1.5;
+  transition: border-color 0.15s;
+}
+textarea:focus { outline: none; border-color: var(--accent2); }
+.btn-row { display: flex; gap: 8px; margin-top: 10px; align-items: center; }
+.btn {
+  padding: 8px 18px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 600;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  transition: all 0.15s;
+  border: none;
+}
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: var(--accent2); }
+.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border2); }
+.btn-secondary:hover { background: var(--border); }
+.btn-danger { background: var(--red-light); color: var(--red); border: 1px solid #F5C6C1; }
+.btn-danger:hover { background: #F9B9B3; }
+.status-msg { font-size: 12px; color: var(--text2); }
+.status-ok { color: var(--green); }
+.status-err { color: var(--red); }
+
+/* ── API KEY MODAL ── */
+.modal-overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 28px;
+  width: 420px;
+  max-width: 90vw;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+}
+.modal-title { font-family: 'DM Serif Display', serif; font-size: 20px; margin-bottom: 8px; }
+.modal-sub { font-size: 13px; color: var(--text2); margin-bottom: 16px; line-height: 1.6; }
+.modal input {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-sm);
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  background: var(--bg);
+  color: var(--text);
+  margin-bottom: 12px;
+}
+.modal input:focus { outline: none; border-color: var(--accent2); }
+.modal-note { font-size: 11px; color: var(--text3); margin-top: 8px; line-height: 1.5; }
+
+/* ── BANNER ── */
+.banner {
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: 13px;
+  margin-bottom: 16px;
+  display: none;
+}
+.banner.show { display: block; }
+.banner-ok { background: var(--green-light); color: var(--green); border: 1px solid #A9DFBF; }
+.banner-err { background: var(--red-light); color: var(--red); border: 1px solid #F5C6C1; }
+
+/* ── EMPTY STATE ── */
+.empty { font-size: 13px; color: var(--text3); padding: 16px 0; font-style: italic; }
+
+/* ── DIVIDER ── */
+.divider { height: 1px; background: var(--border); margin: 20px 0; }
+
+/* ── SPINNER ── */
+.spinner {
+  display: inline-block; width: 13px; height: 13px;
+  border: 2px solid var(--border2); border-top-color: var(--text2);
+  border-radius: 50%; animation: spin 0.7s linear infinite;
+  vertical-align: middle; margin-right: 5px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── SETTINGS PANEL ── */
+.settings-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border); }
+.settings-row:last-child { border-bottom: none; }
+.settings-label { font-size: 13px; font-weight: 500; }
+.settings-sub { font-size: 12px; color: var(--text2); }
+
+/* ── HISTORY ── */
+.alert-history-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  margin-bottom: 6px;
+  font-size: 13px;
+}
+.alert-history-meta { font-size: 11px; color: var(--text3); font-family: 'DM Mono', monospace; }
+
+/* scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- GAPS MODAL -->
+<div class="gaps-overlay" id="gaps-overlay" onclick="handleGapsOverlayClick(event)">
+  <div class="gaps-modal">
+    <div class="gaps-modal-header">
+      <div>
+        <div class="gaps-modal-title">Research Gaps</div>
+        <div class="gaps-modal-sub">4 open gaps identified across all alerts — click any to explore</div>
+      </div>
+      <button class="gaps-close" onclick="closeGapsModal()">✕</button>
+    </div>
+    <div class="gaps-modal-body">
+      <div class="gap-item" onclick="goToCategory('catA')">
+        <div class="gap-letter gap-letter-A">A</div>
+        <div class="gap-content">
+          <div class="gap-cat-name">Digital innovation capability &amp; sustainable performance</div>
+          <div class="gap-text">Most studies model digital capability as a single construct. How different types (AI, IoT, platforms) interact with different sustainability dimensions remains unexplored. Interfirm spillover mechanisms are also undertheorised.</div>
+        </div>
+        <div class="gap-arrow">→</div>
+      </div>
+      <div class="gap-item" onclick="goToCategory('catB')">
+        <div class="gap-letter gap-letter-B">B</div>
+        <div class="gap-content">
+          <div class="gap-cat-name">Strategic frameworks for sustainable technological innovation</div>
+          <div class="gap-text">Frameworks remain largely context-specific and single-country. Cross-industry comparative studies testing generalisability across institutional environments are scarce. Sustainability governance within BPM frameworks is fragmented.</div>
+        </div>
+        <div class="gap-arrow">→</div>
+      </div>
+      <div class="gap-item" onclick="goToCategory('catC')">
+        <div class="gap-letter gap-letter-C">C</div>
+        <div class="gap-content">
+          <div class="gap-cat-name">Resilience, adaptability &amp; innovation under uncertainty</div>
+          <div class="gap-text">No validated theoretical model links innovation management, resilience, and sustainability as a unified construct — the most explicitly stated gap across all alerts.</div>
+        </div>
+        <div class="gap-arrow">→</div>
+      </div>
+      <div class="gap-item" onclick="goToCategory('catD')">
+        <div class="gap-letter gap-letter-D">D</div>
+        <div class="gap-content">
+          <div class="gap-cat-name">Knowledge management &amp; organisational learning for innovation</div>
+          <div class="gap-text">KM is treated as mediator but rarely as the unit of analysis. How firms deliberately design knowledge systems to sustain innovation capability over time is undertheorised. Public sector organisations are almost entirely absent.</div>
+        </div>
+        <div class="gap-arrow">→</div>
+      </div>
+    </div>
+    <div class="gap-footer">Click any gap to jump to that category and see the relevant papers.</div>
+  </div>
+</div>
+
+<!-- API KEY MODAL -->
+<div class="modal-overlay" id="api-modal">
+  <div class="modal">
+    <div class="modal-title">Connect Anthropic API</div>
+    <div class="modal-sub">Enter your Anthropic API key to enable automatic alert analysis. Your key is stored only in your browser's local storage and never sent anywhere except Anthropic's API.</div>
+    <input type="password" id="api-key-input" placeholder="sk-ant-..." autocomplete="off">
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="saveApiKey()">Save key</button>
+      <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+    </div>
+    <p class="modal-note">Get your API key at console.anthropic.com. You need an Anthropic account with API access (this uses claude-sonnet-4-20250514 with ~1000 tokens per alert).</p>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header class="header">
+  <div>
+    <div class="header-title">Scholar Alert Tracker</div>
+    <div class="header-sub">Management of Technological Innovation &amp; Sustainability</div>
+  </div>
+  <div class="header-right">
+    <div class="api-status" id="api-status-btn" onclick="openModal()">⚙ API key</div>
+  </div>
+</header>
+
+<div class="layout">
+  <!-- SIDEBAR -->
+  <nav class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Overview</div>
+      <div class="nav-item active" onclick="showPanel('overview',this)">
+        <span>📊</span> Dashboard
+      </div>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Categories</div>
+      <div class="nav-item" onclick="showPanel('catA',this)">
+        <span class="nav-dot" style="background:#0E6655;"></span> Digital innovation
+        <span class="nav-count" id="count-A">0</span>
+      </div>
+      <div class="nav-item" onclick="showPanel('catB',this)">
+        <span class="nav-dot" style="background:#5B2C6F;"></span> Strategic frameworks
+        <span class="nav-count" id="count-B">0</span>
+      </div>
+      <div class="nav-item" onclick="showPanel('catC',this)">
+        <span class="nav-dot" style="background:#784212;"></span> Resilience
+        <span class="nav-count" id="count-C">0</span>
+      </div>
+      <div class="nav-item" onclick="showPanel('catD',this)">
+        <span class="nav-dot" style="background:#922B21;"></span> Knowledge mgmt
+        <span class="nav-count" id="count-D">0</span>
+      </div>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Actions</div>
+      <div class="nav-item" onclick="showPanel('add',this)">
+        <span>➕</span> Add alert
+      </div>
+      <div class="nav-item" onclick="showPanel('history',this)">
+        <span>📋</span> Alert history
+      </div>
+      <div class="nav-item" onclick="showPanel('settings',this)">
+        <span>⚙️</span> Settings
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- OVERVIEW -->
+    <div class="panel active" id="panel-overview">
+      <div class="page-title">Dashboard</div>
+      <div class="page-sub">Tracking your Google Scholar alerts on management of technological innovation and sustainability.</div>
+      <div class="stats-row" id="stats-row"></div>
+      <div class="signal-card">
+        <div class="card-label">Cross-alert signals — by frequency</div>
+        <div id="signals-list"></div>
+      </div>
+      <div class="signal-card">
+        <div class="card-label">Theme distribution — high-relevance papers</div>
+        <div id="trend-chart"></div>
+      </div>
+    </div>
+
+    <!-- CAT A -->
+    <div class="panel" id="panel-catA">
+      <div class="cat-section-header">
+        <div class="cat-badge cat-badge-A">A</div>
+        <div>
+          <div class="cat-name">Digital innovation capability &amp; sustainable performance</div>
+          <div class="cat-desc">How firms convert digital/technological assets into sustainability outcomes.</div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div id="papers-A"></div>
+      <div class="gap-box"><strong>Open research gap</strong>Most studies model digital capability as a single construct. How different types (AI, IoT, platforms) interact with different sustainability dimensions remains unexplored. Interfirm spillover mechanisms are also undertheorised.</div>
+    </div>
+
+    <!-- CAT B -->
+    <div class="panel" id="panel-catB">
+      <div class="cat-section-header">
+        <div class="cat-badge cat-badge-B">B</div>
+        <div>
+          <div class="cat-name">Strategic frameworks for sustainable technological innovation</div>
+          <div class="cat-desc">Firm-level strategies and frameworks for managing technology innovation sustainably.</div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div id="papers-B"></div>
+      <div class="gap-box"><strong>Open research gap</strong>Frameworks remain largely context-specific and single-country. Cross-industry comparative studies testing generalisability across institutional environments are scarce. Sustainability governance within BPM frameworks is fragmented.</div>
+    </div>
+
+    <!-- CAT C -->
+    <div class="panel" id="panel-catC">
+      <div class="cat-section-header">
+        <div class="cat-badge cat-badge-C">C</div>
+        <div>
+          <div class="cat-name">Resilience, adaptability &amp; innovation under uncertainty</div>
+          <div class="cat-desc">Innovation management as a mechanism for building organisational resilience.</div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div id="papers-C"></div>
+      <div class="gap-box"><strong>Open research gap</strong>No validated theoretical model links innovation management, resilience, and sustainability as a unified construct — the most explicitly stated gap across all alerts.</div>
+    </div>
+
+    <!-- CAT D -->
+    <div class="panel" id="panel-catD">
+      <div class="cat-section-header">
+        <div class="cat-badge cat-badge-D">D</div>
+        <div>
+          <div class="cat-name">Knowledge management &amp; organisational learning for innovation</div>
+          <div class="cat-desc">Knowledge processes as enablers of sustainable innovation outcomes.</div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div id="papers-D"></div>
+      <div class="gap-box"><strong>Open research gap</strong>KM is treated as mediator but rarely as the unit of analysis. How firms deliberately design knowledge systems to sustain innovation capability over time is undertheorised. Public sector organisations are almost entirely absent.</div>
+    </div>
+
+    <!-- ADD ALERT -->
+    <div class="panel" id="panel-add">
+      <div class="page-title">Add New Alert</div>
+      <div class="page-sub">Paste your Google Scholar alert and let the AI classify papers automatically, or import a JSON result manually.</div>
+
+      <div id="add-banner" class="banner"></div>
+
+      <div class="add-step">
+        <div class="step-header">
+          <div class="step-badge">1</div>
+          <div class="step-title">Paste alert text</div>
+        </div>
+        <div class="step-sub">Copy and paste the full text from your Google Scholar alert email below.</div>
+        <textarea id="alert-input" placeholder="Paste your Google Scholar alert text here...&#10;&#10;Example:&#10;Some paper title&#10;Authors - Journal, Year&#10;... abstract snippet ..."></textarea>
+        <div class="btn-row">
+          <button class="btn btn-primary" id="analyse-btn" onclick="analyseAlert()">Analyse with AI ↗</button>
+          <span class="status-msg" id="analyse-status"></span>
+        </div>
+      </div>
+
+      <div class="add-step">
+        <div class="step-header">
+          <div class="step-badge">2</div>
+          <div class="step-title">Or import JSON manually</div>
+        </div>
+        <div class="step-sub">If you analysed the alert with Claude in another window, paste the JSON block here. Copy everything between the ``` fences.</div>
+        <textarea id="json-input" style="min-height:80px;" placeholder='{"totalPapers": 10, "alertNumber": 7, "highRelevance": [{"title":"...","meta":"...","category":"A","theories":[],"method":"...","finding":"...","gap":false,"doi":null}], "newSignals": []}'></textarea>
+        <div class="btn-row">
+          <button class="btn btn-secondary" onclick="importJson()">Import JSON</button>
+          <span class="status-msg" id="import-status"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- HISTORY -->
+    <div class="panel" id="panel-history">
+      <div class="page-title">Alert History</div>
+      <div class="page-sub">All alerts processed so far.</div>
+      <div id="history-list"></div>
+    </div>
+
+    <!-- SETTINGS -->
+    <div class="panel" id="panel-settings">
+      <div class="page-title">Settings</div>
+      <div class="page-sub">Manage your tracker data and API configuration.</div>
+
+      <div class="signal-card">
+        <div class="card-label">API Configuration</div>
+        <div class="settings-row">
+          <div>
+            <div class="settings-label">Anthropic API key</div>
+            <div class="settings-sub" id="key-status-text">No key saved</div>
+          </div>
+          <div class="btn-row" style="margin-top:0;">
+            <button class="btn btn-secondary" onclick="openModal()">Set key</button>
+            <button class="btn btn-danger" onclick="clearApiKey()">Remove</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="signal-card">
+        <div class="card-label">Data Management</div>
+        <div class="settings-row">
+          <div>
+            <div class="settings-label">Export all data</div>
+            <div class="settings-sub">Download your tracker data as JSON for backup.</div>
+          </div>
+          <button class="btn btn-secondary" onclick="exportData()">Export JSON</button>
+        </div>
+        <div class="settings-row">
+          <div>
+            <div class="settings-label">Import data</div>
+            <div class="settings-sub">Restore from a previously exported JSON backup.</div>
+          </div>
+          <button class="btn btn-secondary" onclick="document.getElementById('import-file').click()">Import JSON</button>
+        </div>
+        <div class="settings-row">
+          <div>
+            <div class="settings-label">Reset all data</div>
+            <div class="settings-sub">Clear all papers and signals. This cannot be undone.</div>
+          </div>
+          <button class="btn btn-danger" onclick="resetData()">Reset tracker</button>
+        </div>
+        <input type="file" id="import-file" accept=".json" style="display:none" onchange="importFile(event)">
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+// ── STATE ──────────────────────────────────────────────────────────────────
+const STORAGE_KEY = 'scholar-tracker-state-v1';
+const API_KEY_STORAGE = 'scholar-tracker-api-key';
+
+const SEED_STATE = {
+  totalPapers: 54,
+  alertCount: 5,
+  alerts: [
+    {num:1,date:'2026',papers:10,high:5},
+    {num:2,date:'2026',papers:10,high:5},
+    {num:3,date:'2026',papers:10,high:3},
+    {num:4,date:'2026',papers:10,high:6},
+    {num:5,date:'2026',papers:4,high:2},
+  ],
+  signals: [
+    {text:'Technology/sustainability commitment alone never produces outcomes — an organisational mechanism always mediates',count:10},
+    {text:'Dynamic Capabilities Theory as dominant theoretical lens (sensing, seizing, reconfiguring)',count:5},
+    {text:'Knowledge-based view / absorptive capacity as micro-foundation across multiple studies',count:4},
+    {text:'SME context highly represented — emerging economy settings growing',count:4},
+    {text:'Inter-firm cooperation and network-level mechanisms emerging as alternative to firm-internal innovation for sustainability',count:3},
+    {text:'Explicit gap: no unified model linking innovation management, resilience, and sustainability',count:3},
+  ],
+  categories: {
+    A: [
+      {title:'Green AI, strategic flexibility, and open innovation in manufacturing SMEs',meta:'TL Le · Journal of Manufacturing Technology Management, 2026',theories:['Dynamic Capabilities'],method:'Quantitative / SEM',alert:1,finding:'Green AI requires strategic flexibility + open innovation to convert into sustainable performance. Neither mediator alone is sufficient.'},
+      {title:'Digital innovation capability and sustainable performance via knowledge absorption and diffusion',meta:'W Xu, D Inthurit · Sustainable Futures, 2026',theories:['Dynamic Capabilities','Knowledge-based view'],method:'Quantitative / SEM',alert:1,finding:'Sequential mediation: digital capability → knowledge absorption → diffusion → sustainable performance. Skipping either step breaks the chain.'},
+      {title:'Integrating AI and aesthetic technologies: the convergent knowledge innovation model',meta:'G Schiuma et al. · European Journal of Innovation Management, 2026',theories:['Knowledge-based view'],method:'Case study',alert:2,finding:'Sustainable innovation requires dialogic balance between AI-driven and creative capabilities. Firms treating these as competing underperform.'},
+      {title:'Peer effect in corporate green innovation and its impact on sustainability performance',meta:'J Huang, Z Wang · Management Research Review, 2026',theories:['Institutional theory'],method:'Quantitative / panel',alert:4,finding:"Firms' green innovation is shaped by peer behaviour; this peer effect positively amplifies sustainability performance outcomes."},
+      {title:'Digital technologies and social sustainability in supply chains: evidence from interfirm spillovers',meta:'S Sun, L Peng, W Li · Production Planning & Control, 2026',theories:['Spillover theory','Dynamic Capabilities'],method:'Quantitative / empirical',alert:4,finding:'Digital innovation by upstream suppliers and downstream customers spills over to improve a focal firm\'s social sustainability.'},
+    ],
+    B: [
+      {title:'A strategic framework for sustainable technological innovation in volatile environments',meta:'K Lakkhongkha, T Tantiathimongkhon · Cybernetics and Innovations, 2026',theories:['Dynamic Capabilities'],method:'Quantitative',alert:2,finding:'Long-term sustainability requires synergy of digital leadership + collaborative approaches. Volatility makes this synergy essential.'},
+      {title:'Sustainability in BPM: research landscape and theoretical implications',meta:'S Dallavalle et al. · Sustainable Development, 2026',theories:[],method:'Systematic review',alert:1,gap:true,finding:'BPM–sustainability literature is fragmented. Three underexplored intersections: process innovation, sustainability governance, digital transformation.'},
+      {title:'Innovation management practices — Interface, Patagonia, and Vestas Wind Systems',meta:'N Ibrahimova · International Conference on Smart Environment, 2026',theories:[],method:'Multiple case study',alert:3,finding:'Sustainability-driven innovation requires intentional leadership + systematic process redesign. Incremental improvement is insufficient.'},
+      {title:'Does sustainable project management drive green innovation? Mediating role of stakeholder pressure and digital monitoring',meta:'MS Ahmad et al. · Social Science Review, 2026',theories:['Stakeholder theory'],method:'Quantitative / SEM',alert:4,finding:'Sustainable project management drives green innovation through stakeholder pressure and digital monitoring — neither mediator acts alone.'},
+      {title:'From craft to design 4.0: the evolution of design thinking toward sustainable strategic advantage',meta:'M Falahat et al. · International Business & Management, 2026',theories:['Design thinking','Resource-based view'],method:'Conceptual / review',alert:4,finding:'Design-based approaches combining human-centred thinking, technological extension, and sustainability governance generate durable competitive advantage.'},
+      {title:'Business model innovation through sustainability integration: cases from the sharing economy in Iraq',meta:'MF Almasoodi, S Rahman · 2026',theories:['Business model innovation'],method:'Case study',alert:4,finding:'Integrating sustainability into business model innovation in emerging sharing economy platforms strengthens competitive positioning.'},
+      {title:'Sustainability-oriented cooperation networks in the automotive industry: circular practices in a Portuguese industrial ecosystem',meta:'C Ribeiro, M Franco · Business Strategy and the Environment, 2026',theories:['Stakeholder theory','Network theory'],method:'Case study',alert:5,finding:'Inter-firm cooperation networks translate sustainability commitments into concrete circular economy actions including joint waste management.'},
+    ],
+    C: [
+      {title:'Adaptive innovation management: a resilience approach in uncertainty',meta:'O Kalinichenko, I Makarchuk · Public Management and Policy, 2026',theories:['Resilience theory'],method:'Conceptual',alert:3,gap:true,finding:'Innovation management is a resilience-formation tool, but no universal theoretical model yet explains this relationship.'},
+      {title:'Sustainable innovation in management and entrepreneurship using Industry 4.0',meta:'BK Sharma et al. · International Journal of Innovation Science, 2026',theories:['Entrepreneurship theory'],method:'Editorial / conceptual',alert:3,finding:'Industry 4.0 technologies do not automatically produce sustainability outcomes — management and entrepreneurship are the critical mediating domains.'},
+      {title:'Building resilience: sustainability and innovation accounting in enterprise risk management — Jordanian SMEs',meta:'M Al-Nimer et al. · International Journal of Business Performance Management, 2026',theories:['Resource-based view'],method:'Quantitative / SEM',alert:2,finding:'Innovation capability and corporate sustainable development jointly improve enterprise risk management and organisational performance in SMEs.'},
+      {title:'The agile advantage: aligning talent management with risk mitigation for sustainability',meta:'C Radu, DI Damian, M Mazare · 2026',theories:['Resilience theory','Resource-based view'],method:'Quantitative / predictive',alert:5,finding:'Talent management agility scores predict ESG risk levels at national level, linking human capital agility to sustainability risk mitigation.'},
+    ],
+    D: [
+      {title:'Digital innovation capability via knowledge absorption and diffusion (KM lens)',meta:'W Xu, D Inthurit · Sustainable Futures, 2026',theories:['Knowledge-based view','Absorptive capacity'],method:'Quantitative / SEM',alert:1,finding:'Absorptive capacity is the micro-foundation for how firms convert digital innovation into sustainability performance.'},
+      {title:'Sustainability in BPM (knowledge & governance dimension)',meta:'S Dallavalle et al. · Sustainable Development, 2026',theories:['Knowledge-based view'],method:'Systematic review',alert:1,finding:'Process innovation and sustainability governance are knowledge-intensive activities poorly integrated in current BPM frameworks.'},
+      {title:'Knowledge management, organisational learning and innovation: recommendations for the public sector',meta:'HM Bousquet et al. · Gestão & Produção, 2026',theories:['Knowledge-based view','Organisational learning'],method:'Conceptual / review',alert:2,finding:'KM and organisational learning enable innovation in public sector organisations, but the link requires deliberate management practices.'},
+      {title:'Driving business sustainability through leadership, knowledge, and commitment: mediating role of innovation culture',meta:'RA Wibowo et al. · International Business & Management, 2026',theories:['Knowledge-based view','Leadership theory'],method:'Quantitative / SEM',alert:4,finding:'Visionary leadership and knowledge management drive sustainable performance indirectly through innovation culture as mediator — not directly.'},
+    ]
+  }
+};
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : JSON.parse(JSON.stringify(SEED_STATE));
+  } catch(e) { return JSON.parse(JSON.stringify(SEED_STATE)); }
+}
+function saveState() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) { console.error('Save failed', e); }
+}
+function getApiKey() { return localStorage.getItem(API_KEY_STORAGE) || ''; }
+function saveApiKey() {
+  const k = document.getElementById('api-key-input').value.trim();
+  if (!k) return;
+  localStorage.setItem(API_KEY_STORAGE, k);
+  updateApiStatus();
+  closeModal();
+}
+function clearApiKey() {
+  if (confirm('Remove saved API key?')) { localStorage.removeItem(API_KEY_STORAGE); updateApiStatus(); }
+}
+function updateApiStatus() {
+  const k = getApiKey();
+  const btn = document.getElementById('api-status-btn');
+  const txt = document.getElementById('key-status-text');
+  if (k) {
+    btn.textContent = '● Connected';
+    btn.classList.add('connected');
+    if (txt) txt.textContent = 'Key saved: sk-ant-...' + k.slice(-4);
+  } else {
+    btn.textContent = '⚙ API key';
+    btn.classList.remove('connected');
+    if (txt) txt.textContent = 'No key saved — click "Set key" to connect.';
+  }
+}
+
+let state = loadState();
+
+// ── NAVIGATION ─────────────────────────────────────────────────────────────
+function showPanel(id, el) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  if (el) el.classList.add('active');
+}
+
+// ── RENDER ─────────────────────────────────────────────────────────────────
+const BAR_COLORS = { A:'#0E6655', B:'#5B2C6F', C:'#784212', D:'#922B21' };
+const CAT_LABELS = { A:'A — Digital innovation', B:'B — Strategic frameworks', C:'C — Resilience', D:'D — Knowledge mgmt' };
+
+function renderStats() {
+  const high = Object.values(state.categories).reduce((a,c) => a+c.length, 0);
+  const cards = [
+    [state.totalPapers, 'Papers reviewed', false],
+    [high, 'High relevance', false],
+    [state.alertCount, 'Alerts processed', false],
+    [4, 'Research gaps ↗', true]
+  ];
+  document.getElementById('stats-row').innerHTML = cards.map(([n,l,clickable]) =>
+    `<div class="stat-card${clickable ? ' clickable' : ''}" ${clickable ? 'onclick="openGapsModal()" title="View all research gaps"' : ''}>
+      <div class="stat-n">${n}</div>
+      <div class="stat-label">${l}</div>
+    </div>`
+  ).join('');
+}
+
+function openGapsModal() {
+  document.getElementById('gaps-overlay').classList.add('open');
+}
+function closeGapsModal() {
+  document.getElementById('gaps-overlay').classList.remove('open');
+}
+function handleGapsOverlayClick(e) {
+  if (e.target === document.getElementById('gaps-overlay')) closeGapsModal();
+}
+function goToCategory(catId) {
+  closeGapsModal();
+  const navItems = document.querySelectorAll('.nav-item');
+  const catMap = { catA: 1, catB: 2, catC: 3, catD: 4 };
+  navItems.forEach(n => n.classList.remove('active'));
+  navItems[catMap[catId]].classList.add('active');
+  showPanel(catId, null);
+}
+
+function renderSignals() {
+  document.getElementById('signals-list').innerHTML = state.signals
+    .map(s => `<div class="signal-row"><span class="signal-n">${Math.round(s.count)}</span><span class="signal-text">${s.text}</span></div>`)
+    .join('');
+}
+
+function renderTrend() {
+  const counts = {};
+  Object.keys(state.categories).forEach(k => counts[k] = state.categories[k].length);
+  const max = Math.max(...Object.values(counts), 1);
+  document.getElementById('trend-chart').innerHTML = Object.keys(counts)
+    .map(k => `<div class="trend-row">
+      <span class="trend-label">${CAT_LABELS[k]}</span>
+      <div class="trend-bar-wrap"><div class="trend-bar" style="width:${Math.round(counts[k]/max*100)}%;background:${BAR_COLORS[k]};"></div></div>
+      <span class="trend-count">${counts[k]}</span>
+    </div>`).join('');
+}
+
+function renderNavCounts() {
+  Object.keys(state.categories).forEach(k => {
+    const el = document.getElementById('count-' + k);
+    if (el) el.textContent = state.categories[k].length;
+  });
+}
+
+function pillsHtml(p) {
+  let h = (p.theories||[]).map(t => `<span class="pill pill-theory">${t}</span>`).join('');
+  if (p.method) h += `<span class="pill pill-method">${p.method}</span>`;
+  if (p.gap) h += `<span class="pill pill-gap">Identifies gap</span>`;
+  h += `<span class="pill pill-alert">Alert ${p.alert}</span>`;
+  if (p.isNew) h += `<span class="pill pill-new">New</span>`;
+  return h;
+}
+
+function scholarUrl(title) {
+  return 'https://scholar.google.com/scholar?q=' + encodeURIComponent(title);
+}
+
+function doiUrl(doi) {
+  if (!doi) return null;
+  doi = doi.trim();
+  if (doi.startsWith('http')) return doi;
+  return 'https://doi.org/' + doi.replace(/^doi:\s*/i, '');
+}
+
+function renderPapers(key) {
+  const papers = state.categories[key] || [];
+  const el = document.getElementById('papers-' + key);
+  if (!el) return;
+  el.innerHTML = papers.length === 0
+    ? '<p class="empty">No high-relevance papers yet in this category.</p>'
+    : papers.map((p, i) => {
+        const cardId = `card-${key}-${i}`;
+        const doiRowId = `doi-row-${key}-${i}`;
+        const doiInputId = `doi-input-${key}-${i}`;
+        const doiHtml = p.doi
+          ? `<a class="paper-link paper-link-doi" href="${doiUrl(p.doi)}" target="_blank" rel="noopener">🔗 DOI</a>`
+          : `<button class="paper-link paper-link-add" onclick="toggleDoiEdit('${doiRowId}','${doiInputId}')">+ Add DOI</button>`;
+        return `
+        <div class="paper-card" id="${cardId}">
+          <div class="paper-title">${p.title}</div>
+          <div class="paper-meta">${p.meta}</div>
+          <div class="pill-row">${pillsHtml(p)}</div>
+          <div class="paper-finding"><strong>Finding — </strong>${p.finding}</div>
+          <div class="paper-links">
+            <a class="paper-link paper-link-scholar" href="${scholarUrl(p.title)}" target="_blank" rel="noopener">🔍 Google Scholar</a>
+            ${doiHtml}
+          </div>
+          <div class="doi-edit-row" id="${doiRowId}">
+            <input class="doi-edit-input" id="${doiInputId}" placeholder="Paste DOI or full URL, e.g. 10.1016/j.xxx or https://doi.org/..." value="${p.doi || ''}">
+            <button class="doi-save-btn" onclick="saveDoi('${key}',${i},'${doiInputId}','${cardId}','${doiRowId}')">Save</button>
+            <button class="doi-cancel-btn" onclick="toggleDoiEdit('${doiRowId}','${doiInputId}')">Cancel</button>
+          </div>
+        </div>`;
+      }).join('');
+}
+
+function toggleDoiEdit(rowId, inputId) {
+  const row = document.getElementById(rowId);
+  const isOpen = row.classList.contains('open');
+  row.classList.toggle('open', !isOpen);
+  if (!isOpen) document.getElementById(inputId).focus();
+}
+
+function saveDoi(catKey, idx, inputId, cardId, doiRowId) {
+  const val = document.getElementById(inputId).value.trim();
+  state.categories[catKey][idx].doi = val || null;
+  saveState();
+  renderPapers(catKey);
+}
+
+function renderHistory() {
+  const el = document.getElementById('history-list');
+  if (!el) return;
+  if (!state.alerts || state.alerts.length === 0) {
+    el.innerHTML = '<p class="empty">No alerts processed yet.</p>';
+    return;
+  }
+  el.innerHTML = [...state.alerts].reverse().map(a => `
+    <div class="alert-history-item">
+      <div>
+        <div style="font-weight:500;">Alert ${a.num}</div>
+        <div class="alert-history-meta">${a.date} · ${a.papers} papers · ${a.high} high relevance</div>
+      </div>
+    </div>`).join('');
+}
+
+function renderAll() {
+  renderStats();
+  renderSignals();
+  renderTrend();
+  renderNavCounts();
+  ['A','B','C','D'].forEach(renderPapers);
+  renderHistory();
+}
+
+// ── MODAL ──────────────────────────────────────────────────────────────────
+function openModal() { document.getElementById('api-modal').classList.add('open'); }
+function closeModal() { document.getElementById('api-modal').classList.remove('open'); }
+document.getElementById('api-modal').addEventListener('click', e => { if (e.target === document.getElementById('api-modal')) closeModal(); });
+
+// ── ANALYSE ────────────────────────────────────────────────────────────────
+async function analyseAlert() {
+  const text = document.getElementById('alert-input').value.trim();
+  const apiKey = getApiKey();
+  const statusEl = document.getElementById('analyse-status');
+  const banner = document.getElementById('add-banner');
+  banner.className = 'banner';
+
+  if (!text) { statusEl.textContent = 'Please paste alert text first.'; return; }
+  if (!apiKey) {
+    banner.className = 'banner banner-err show';
+    banner.textContent = 'No API key saved. Click "⚙ API key" in the header to add your Anthropic API key, or use the manual JSON import below.';
+    return;
+  }
+
+  const btn = document.getElementById('analyse-btn');
+  btn.disabled = true;
+  statusEl.innerHTML = '<span class="spinner"></span>Analysing with AI…';
+
+  const prompt = `You are a research assistant tracking a Google Scholar alert on "Management of Technological Innovation and Sustainability".
+
+Analyse the alert text below. Classify each paper as HIGH relevance if it directly addresses any of:
+A) Digital innovation capability and sustainable performance
+B) Strategic frameworks for sustainable technological innovation
+C) Resilience, adaptability and innovation under uncertainty
+D) Knowledge management and organisational learning for innovation
+
+Respond ONLY with valid JSON, no markdown:
+{
+  "totalPapers": <number of ALL papers in alert>,
+  "alertNumber": ${state.alertCount + 1},
+  "highRelevance": [
+    {
+      "title": "<clean title, no [PDF]/[HTML] tags>",
+      "meta": "<Authors · Journal, Year>",
+      "category": "<A, B, C, or D>",
+      "theories": ["<theory name>"],
+      "method": "<method in 3 words>",
+      "finding": "<core finding, max 25 words>",
+      "gap": <true if paper identifies a research gap, else false>,
+      "doi": "<DOI string if you can confidently infer it from the journal/title/authors, e.g. 10.1016/j.xxx.2026.123456, otherwise null>"
+    }
+  ],
+  "newSignals": ["<new cross-alert pattern not seen before, or empty array>"]
+}
+
+For the doi field: only include a DOI if you are confident it is correct based on the journal name and paper details. If unsure, set to null — a missing DOI is better than a wrong one.
+
+Alert text:
+${text}`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1500,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    if (!res.ok) throw new Error(`API error ${res.status}: ${await res.text()}`);
+    const data = await res.json();
+    const raw = data.content.map(b => b.text||'').join('').replace(/```json|```/g,'').trim();
+    const parsed = JSON.parse(raw);
+    ingestParsed(parsed);
+    document.getElementById('alert-input').value = '';
+    statusEl.textContent = '';
+    banner.className = 'banner banner-ok show';
+    banner.textContent = `✓ Alert ${parsed.alertNumber} analysed — ${(parsed.highRelevance||[]).length} high-relevance papers added.`;
+  } catch(err) {
+    banner.className = 'banner banner-err show';
+    banner.textContent = 'Error: ' + (err.message || 'Analysis failed. Check your API key or use manual JSON import.');
+    statusEl.textContent = '';
+  }
+  btn.disabled = false;
+}
+
+function importJson() {
+  const raw = document.getElementById('json-input').value.trim().replace(/```json|```/g,'').trim();
+  const statusEl = document.getElementById('import-status');
+  const banner = document.getElementById('add-banner');
+  banner.className = 'banner';
+  if (!raw) { statusEl.textContent = 'Please paste JSON first.'; return; }
+  let parsed;
+  try { parsed = JSON.parse(raw); }
+  catch(e) { statusEl.textContent = 'Invalid JSON — check you copied the full block.'; return; }
+  ingestParsed(parsed);
+  document.getElementById('json-input').value = '';
+  statusEl.textContent = '';
+  banner.className = 'banner banner-ok show';
+  banner.textContent = `✓ Alert ${parsed.alertNumber} imported — ${(parsed.highRelevance||[]).length} high-relevance papers added.`;
+}
+
+function ingestParsed(parsed) {
+  const alertNum = parsed.alertNumber || (state.alertCount + 1);
+  state.alertCount = Math.max(state.alertCount, alertNum);
+  state.totalPapers += (parsed.totalPapers || 0);
+  const added = parsed.highRelevance || [];
+  added.forEach(p => {
+    const cat = p.category;
+    if (!['A','B','C','D'].includes(cat)) return;
+    state.categories[cat].push({ ...p, alert: alertNum, isNew: true });
+  });
+  (parsed.newSignals || []).forEach(s => { if (s && s.trim()) state.signals.push({ text: s.trim(), count: 1 }); });
+  state.signals.sort((a,b) => b.count - a.count);
+  if (!state.alerts) state.alerts = [];
+  state.alerts.push({ num: alertNum, date: new Date().getFullYear().toString(), papers: parsed.totalPapers || 0, high: added.length });
+  saveState();
+  renderAll();
+}
+
+// ── EXPORT / IMPORT ────────────────────────────────────────────────────────
+function exportData() {
+  const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'scholar-tracker-backup.json';
+  a.click();
+}
+
+function importFile(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const imported = JSON.parse(e.target.result);
+      if (!imported.categories || !imported.signals) throw new Error('Invalid backup file');
+      state = imported;
+      saveState();
+      renderAll();
+      alert('Data imported successfully.');
+    } catch(err) { alert('Import failed: ' + err.message); }
+  };
+  reader.readAsText(file);
+  event.target.value = '';
+}
+
+function resetData() {
+  if (confirm('This will permanently delete all your tracker data. Are you sure?')) {
+    state = JSON.parse(JSON.stringify(SEED_STATE));
+    saveState();
+    renderAll();
+    alert('Tracker reset to initial state.');
+  }
+}
+
+// ── SETTINGS KEY STATUS ────────────────────────────────────────────────────
+function updateKeyStatusText() {
+  const txt = document.getElementById('key-status-text');
+  const k = getApiKey();
+  if (txt) txt.textContent = k ? 'Key saved: sk-ant-...' + k.slice(-4) : 'No key saved — click "Set key" to connect.';
+}
+
+// ── INIT ───────────────────────────────────────────────────────────────────
+updateApiStatus();
+renderAll();
+</script>
+</body>
+</html>  font-size: 18px;
   color: #fff;
   letter-spacing: 0.01em;
 }
