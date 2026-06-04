@@ -6,40 +6,30 @@
 <title>Scholar Alert Tracker</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:system-ui,sans-serif;background:#F7F5F0;color:#1A1714;font-size:14px;line-height:1.6;}
+body{font-family:system-ui,-apple-system,sans-serif;background:#F7F5F0;color:#1A1714;font-size:14px;line-height:1.6;}
 a{text-decoration:none;}
-
-/* header */
-.hdr{background:#1B4F72;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100;}
-.hdr-title{font-size:17px;font-weight:600;color:#fff;}
+.hdr{background:#1B4F72;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.2);}
+.hdr-title{font-size:17px;font-weight:700;color:#fff;}
 .hdr-sub{font-size:11px;color:rgba(255,255,255,0.5);margin-top:1px;}
-
-/* layout */
 .layout{display:flex;min-height:calc(100vh - 56px);}
-.sidebar{width:200px;flex-shrink:0;background:#fff;border-right:1px solid #E2DDD5;padding:16px 0;position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto;}
+.sidebar{width:210px;flex-shrink:0;background:#fff;border-right:1px solid #E2DDD5;padding:16px 0;position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto;}
 .sid-label{font-size:10px;font-weight:700;color:#9B948D;text-transform:uppercase;letter-spacing:.08em;padding:0 16px;margin:14px 0 4px;}
-.nav{display:flex;align-items:center;gap:8px;padding:8px 16px;font-size:13px;color:#6B6560;cursor:pointer;border-left:3px solid transparent;}
+.nav{display:flex;align-items:center;gap:8px;padding:8px 16px;font-size:13px;color:#6B6560;cursor:pointer;border-left:3px solid transparent;user-select:none;}
 .nav:hover{background:#F0EDE6;color:#1A1714;}
 .nav.on{background:#D6EAF8;color:#1B4F72;border-left-color:#2E86C1;font-weight:600;}
 .ndot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
 .nbadge{margin-left:auto;font-size:11px;background:#F0EDE6;color:#9B948D;padding:1px 6px;border-radius:10px;}
 .nav.on .nbadge{background:#2E86C1;color:#fff;}
-
-/* main */
 .main{flex:1;padding:24px 28px;max-width:860px;}
 .panel{display:none;}.panel.on{display:block;}
 .ptitle{font-size:22px;font-weight:700;color:#1B4F72;margin-bottom:4px;}
 .psub{font-size:13px;color:#6B6560;margin-bottom:20px;}
-
-/* stats */
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px;}
 .scard{background:#fff;border:1px solid #E2DDD5;border-radius:10px;padding:14px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.06);}
 .scard.click{cursor:pointer;transition:border-color .15s;}
 .scard.click:hover{border-color:#2E86C1;}
 .snum{font-size:26px;font-weight:700;color:#1B4F72;}
 .slbl{font-size:11px;color:#6B6560;margin-top:2px;}
-
-/* signal box */
 .sbox{background:#fff;border:1px solid #E2DDD5;border-radius:10px;padding:16px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,.06);}
 .blbl{font-size:10px;font-weight:700;color:#9B948D;text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px;}
 .sigrow{display:flex;align-items:baseline;gap:10px;padding:6px 0;border-bottom:1px solid #F0EDE6;font-size:12px;color:#6B6560;}
@@ -51,8 +41,6 @@ a{text-decoration:none;}
 .tbwrap{width:100px;height:5px;background:#F0EDE6;border-radius:3px;overflow:hidden;}
 .tbar{height:100%;border-radius:3px;}
 .tcnt{font-size:12px;color:#9B948D;min-width:20px;text-align:right;}
-
-/* category header */
 .cathdr{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
 .catbadge{font-size:20px;font-weight:700;width:38px;height:38px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .cb-A{background:#D5F0E8;color:#0E6655;}
@@ -62,7 +50,537 @@ a{text-decoration:none;}
 .catname{font-size:17px;font-weight:600;color:#1A1714;}
 .catdesc{font-size:12px;color:#6B6560;}
 .divider{height:1px;background:#E2DDD5;margin:14px 0;}
+.pcard{background:#fff;border:1px solid #E2DDD5;border-radius:10px;padding:13px 15px;margin-bottom:9px;box-shadow:0 1px 3px rgba(0,0,0,.06);}
+.ptit{font-size:13px;font-weight:600;color:#1A1714;margin-bottom:2px;line-height:1.4;}
+.pmeta{font-size:11px;color:#9B948D;margin-bottom:7px;font-family:monospace;}
+.pills{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:7px;}
+.pill{font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;}
+.pt{background:#EDE0F5;color:#5B2C6F;}
+.pm{background:#D5F0E8;color:#0E6655;}
+.pg{background:#FDEBD0;color:#784212;}
+.pa{background:#F0EDE6;color:#6B6560;}
+.pn{background:#DBEAFE;color:#1E40AF;}
+.pfind{font-size:12px;color:#6B6560;line-height:1.5;margin-bottom:8px;}
+.plinks{display:flex;gap:6px;flex-wrap:wrap;}
+.plink{font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;border:1px solid;display:inline-flex;align-items:center;gap:3px;cursor:pointer;}
+.pl-gs{background:#E6F1FB;color:#0C447C;border-color:#A9C8E8;}
+.pl-gs:hover{background:#C8DFF5;}
+.pl-doi{background:#D5F0E8;color:#0E6655;border-color:#A2D9C5;}
+.pl-doi:hover{background:#C0EAD8;}
+.gapbox{background:#FDEBD0;border:1px solid #F0C982;border-radius:10px;padding:12px 15px;margin-top:6px;font-size:12px;color:#784212;line-height:1.6;}
+.gapbox strong{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:3px;color:#5D3200;}
+.astep{background:#fff;border:1px solid #E2DDD5;border-radius:10px;padding:18px;margin-bottom:14px;}
+.astit{font-size:14px;font-weight:600;margin-bottom:4px;}
+.asub{font-size:12px;color:#6B6560;margin-bottom:10px;line-height:1.55;}
+.callout{background:#EEF6FF;border:1px solid #B3D4F5;border-radius:8px;padding:12px 14px;font-size:12px;color:#1B4F72;margin-bottom:12px;line-height:1.6;}
+.callout strong{font-weight:700;}
+.copy-box{background:#F7F5F0;border:1px solid #CCC7BC;border-radius:6px;padding:10px 12px;font-family:monospace;font-size:11px;color:#1A1714;white-space:pre-wrap;word-break:break-all;margin-bottom:8px;max-height:160px;overflow-y:auto;}
+textarea{width:100%;min-height:90px;padding:9px 12px;border:1px solid #CCC7BC;border-radius:6px;font-family:monospace;font-size:12px;resize:vertical;background:#F7F5F0;color:#1A1714;}
+textarea:focus{outline:none;border-color:#2E86C1;}
+.btnrow{display:flex;gap:8px;margin-top:10px;align-items:center;flex-wrap:wrap;}
+.btn{padding:8px 16px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;border:1px solid #CCC7BC;background:#fff;color:#1A1714;}
+.btn:hover{background:#F0EDE6;}
+.btn-primary{background:#1B4F72;color:#fff;border-color:#1B4F72;}
+.btn-primary:hover{background:#2E86C1;border-color:#2E86C1;}
+.stmsg{font-size:12px;color:#6B6560;}
+.stok{color:#0E6655;}
+.sterr{color:#922B21;}
+.banner{border-radius:8px;padding:10px 14px;font-size:13px;margin-bottom:16px;}
+.bok{background:#D5F0E8;color:#0E6655;border:1px solid #A2D9C5;}
+.berr{background:#FADBD8;color:#922B21;border:1px solid #F1A9A0;}
+.moverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:300;align-items:center;justify-content:center;}
+.moverlay.open{display:flex;}
+.modal{background:#fff;border-radius:12px;width:500px;max-width:95vw;box-shadow:0 8px 40px rgba(0,0,0,.2);overflow:hidden;}
+.mhead{background:#1B4F72;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;}
+.mtitle{font-size:15px;font-weight:600;color:#fff;}
+.mclose{background:rgba(255,255,255,.15);border:none;color:#fff;width:26px;height:26px;border-radius:50%;font-size:14px;cursor:pointer;}
+.mclose:hover{background:rgba(255,255,255,.28);}
+.mbody{padding:14px 18px;}
+.gitem{display:flex;align-items:flex-start;gap:10px;padding:10px 6px;border-radius:8px;cursor:pointer;border-bottom:1px solid #F0EDE6;transition:background .12s;}
+.gitem:last-child{border-bottom:none;}
+.gitem:hover{background:#F7F5F0;}
+.gletter{font-size:18px;font-weight:700;width:34px;height:34px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.gl-A{background:#D5F0E8;color:#0E6655;}
+.gl-B{background:#EDE0F5;color:#5B2C6F;}
+.gl-C{background:#FDEBD0;color:#784212;}
+.gl-D{background:#FADBD8;color:#922B21;}
+.gcontent{flex:1;}
+.gcname{font-size:12px;font-weight:600;color:#1A1714;margin-bottom:2px;}
+.gctxt{font-size:12px;color:#6B6560;line-height:1.5;}
+.garrow{font-size:13px;color:#9B948D;align-self:center;margin-left:6px;flex-shrink:0;}
+.mfoot{padding:9px 18px;background:#F7F5F0;font-size:11px;color:#9B948D;border-top:1px solid #E2DDD5;}
+</style>
+</head>
+<body>
 
+<div class="moverlay" id="gmodal">
+<div class="modal">
+<div class="mhead">
+  <div class="mtitle">4 Research Gaps</div>
+  <button class="mclose" id="mclose-btn">&#x2715;</button>
+</div>
+<div class="mbody">
+  <div class="gitem" id="gi-A">
+    <div class="gletter gl-A">A</div>
+    <div class="gcontent">
+      <div class="gcname">Digital innovation capability &amp; sustainable performance</div>
+      <div class="gctxt">Digital capability treated as monolithic. Different types (AI, IoT, platforms) and their distinct effects on sustainability dimensions unexplored. Interfirm spillovers undertheorised.</div>
+    </div>
+    <div class="garrow">&#8594;</div>
+  </div>
+  <div class="gitem" id="gi-B">
+    <div class="gletter gl-B">B</div>
+    <div class="gcontent">
+      <div class="gcname">Strategic frameworks for sustainable technological innovation</div>
+      <div class="gctxt">Frameworks are context-specific and single-country. Theory-practice translation gaps persist. Cross-industry generalisability untested.</div>
+    </div>
+    <div class="garrow">&#8594;</div>
+  </div>
+  <div class="gitem" id="gi-C">
+    <div class="gletter gl-C">C</div>
+    <div class="gcontent">
+      <div class="gcname">Resilience, adaptability &amp; innovation under uncertainty</div>
+      <div class="gctxt">No unified theoretical model links innovation management, resilience, and sustainability. Named explicitly across multiple alerts.</div>
+    </div>
+    <div class="garrow">&#8594;</div>
+  </div>
+  <div class="gitem" id="gi-D">
+    <div class="gletter gl-D">D</div>
+    <div class="gcontent">
+      <div class="gcname">Knowledge management &amp; organisational learning for innovation</div>
+      <div class="gctxt">KM used only as mediator, never as unit of analysis. Public sector absent. Western-economy bias identified.</div>
+    </div>
+    <div class="garrow">&#8594;</div>
+  </div>
+</div>
+<div class="mfoot">Click any gap to jump to that category and see related papers.</div>
+</div>
+</div>
+
+<div class="hdr">
+  <div>
+    <div class="hdr-title">Scholar Alert Tracker</div>
+    <div class="hdr-sub">Management of Technological Innovation &amp; Sustainability</div>
+  </div>
+</div>
+
+<div class="layout">
+<nav class="sidebar">
+  <div class="sid-label">Overview</div>
+  <div class="nav on" id="nav-overview">&#128202; Dashboard</div>
+  <div class="sid-label">Categories</div>
+  <div class="nav" id="nav-catA"><span class="ndot" style="background:#0E6655;"></span>Digital innovation<span class="nbadge" id="nb-A">0</span></div>
+  <div class="nav" id="nav-catB"><span class="ndot" style="background:#5B2C6F;"></span>Strategic frameworks<span class="nbadge" id="nb-B">0</span></div>
+  <div class="nav" id="nav-catC"><span class="ndot" style="background:#784212;"></span>Resilience<span class="nbadge" id="nb-C">0</span></div>
+  <div class="nav" id="nav-catD"><span class="ndot" style="background:#922B21;"></span>Knowledge mgmt<span class="nbadge" id="nb-D">0</span></div>
+  <div class="sid-label">Actions</div>
+  <div class="nav" id="nav-add">&#43; Add alert</div>
+  <div class="nav" id="nav-settings">&#9881; Settings</div>
+</nav>
+
+<main class="main">
+
+<div class="panel on" id="panel-overview"></div>
+
+<div class="panel" id="panel-catA">
+  <div class="cathdr"><div class="catbadge cb-A">A</div><div><div class="catname">Digital innovation capability &amp; sustainable performance</div><div class="catdesc">How firms convert digital/technological assets into sustainability outcomes.</div></div></div>
+  <div class="divider"></div>
+  <div id="papers-A"></div>
+  <div class="gapbox"><strong>Open research gap</strong>Digital capability is treated as a monolithic construct. Distinct types (AI, IoT, platforms) and their differential effects on sustainability remain unexplored. Interfirm spillover mechanisms are undertheorised.</div>
+</div>
+
+<div class="panel" id="panel-catB">
+  <div class="cathdr"><div class="catbadge cb-B">B</div><div><div class="catname">Strategic frameworks for sustainable technological innovation</div><div class="catdesc">Firm-level strategies and frameworks for managing technology innovation sustainably.</div></div></div>
+  <div class="divider"></div>
+  <div id="papers-B"></div>
+  <div class="gapbox"><strong>Open research gap</strong>Frameworks remain context-specific and single-country. Theory-to-practice translation gaps persist. Cross-industry comparative studies testing generalisability are scarce.</div>
+</div>
+
+<div class="panel" id="panel-catC">
+  <div class="cathdr"><div class="catbadge cb-C">C</div><div><div class="catname">Resilience, adaptability &amp; innovation under uncertainty</div><div class="catdesc">Innovation management as a mechanism for building organisational resilience.</div></div></div>
+  <div class="divider"></div>
+  <div id="papers-C"></div>
+  <div class="gapbox"><strong>Open research gap</strong>No validated theoretical model links innovation management, resilience, and sustainability as a unified construct &#8212; the most explicitly stated gap across all alerts.</div>
+</div>
+
+<div class="panel" id="panel-catD">
+  <div class="cathdr"><div class="catbadge cb-D">D</div><div><div class="catname">Knowledge management &amp; organisational learning for innovation</div><div class="catdesc">Knowledge processes as enablers of sustainable innovation outcomes.</div></div></div>
+  <div class="divider"></div>
+  <div id="papers-D"></div>
+  <div class="gapbox"><strong>Open research gap</strong>KM is consistently used as a mediator but never as the unit of analysis. Public sector organisations are almost entirely absent. Western-economy bias in sustainability literature is an emerging gap.</div>
+</div>
+
+<div class="panel" id="panel-add">
+  <div class="ptitle">Add New Alert</div>
+  <div class="psub">Two-step process: generate a prompt for Claude, then import the JSON result.</div>
+  <div id="add-banner"></div>
+
+  <div class="astep">
+    <div class="astit">Step 1 &#8212; Generate prompt for Claude</div>
+    <div class="asub">Paste your Google Scholar alert text below and click Generate Prompt. A ready-made prompt will appear &#8212; copy it and paste it into Claude (claude.ai or any Claude interface).</div>
+    <textarea id="alert-input" placeholder="Paste your Google Scholar alert text here..."></textarea>
+    <div class="btnrow">
+      <button class="btn btn-primary" id="gen-btn">Generate Claude prompt</button>
+      <span class="stmsg" id="gen-status"></span>
+    </div>
+    <div id="prompt-output" style="display:none;margin-top:12px;">
+      <div class="asub" style="margin-bottom:6px;">Copy this prompt and paste it into Claude:</div>
+      <div class="copy-box" id="prompt-text"></div>
+      <div class="btnrow">
+        <button class="btn btn-primary" id="copy-btn">Copy prompt</button>
+        <span class="stmsg" id="copy-status"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="astep">
+    <div class="astit">Step 2 &#8212; Import Claude's JSON result</div>
+    <div class="callout"><strong>How to get the JSON:</strong> After pasting the prompt into Claude, it will reply with a JSON block between ``` fences. Copy everything between the fences and paste it below.</div>
+    <textarea id="json-input" style="min-height:70px;" placeholder="Paste JSON result from Claude here..."></textarea>
+    <div class="btnrow">
+      <button class="btn btn-primary" id="import-btn">Import &amp; update tracker</button>
+      <span class="stmsg" id="import-status"></span>
+    </div>
+  </div>
+</div>
+
+<div class="panel" id="panel-settings">
+  <div class="ptitle">Settings</div>
+  <div class="psub">Manage your tracker data.</div>
+  <div class="sbox">
+    <div class="blbl">Data management</div>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div><div style="font-size:13px;font-weight:600;">Export backup</div><div style="font-size:12px;color:#6B6560;">Download all tracker data as JSON.</div></div>
+        <button class="btn" id="export-btn">Export JSON</button>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div><div style="font-size:13px;font-weight:600;">Import backup</div><div style="font-size:12px;color:#6B6560;">Restore from a previously exported file.</div></div>
+        <button class="btn" id="import-file-btn">Import JSON</button>
+        <input type="file" id="import-file" accept=".json" style="display:none;">
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div><div style="font-size:13px;font-weight:600;">Reset tracker</div><div style="font-size:12px;color:#922B21;">Clear all data and restore defaults. Cannot be undone.</div></div>
+        <button class="btn" id="reset-btn" style="color:#922B21;border-color:#F1A9A0;">Reset all data</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+
+<script>
+(function() {
+
+var STORAGE_KEY = 'scholar-tracker-v1';
+
+var SEED = {
+  totalPapers: 71,
+  alertCount: 8,
+  signals: [
+    {text: 'Technology/sustainability commitment alone never produces outcomes - an organisational mechanism always mediates', count: 13},
+    {text: 'Full mediation pattern strengthening - sustainability practices require an innovation mechanism; no direct effect without it', count: 5},
+    {text: 'Dynamic Capabilities Theory as dominant theoretical lens', count: 6},
+    {text: 'Knowledge-based view / absorptive capacity as micro-foundation across multiple studies', count: 5},
+    {text: 'SME context highly represented - emerging economy settings growing', count: 5},
+    {text: 'Inter-firm cooperation and network-level mechanisms as alternative to firm-internal innovation for sustainability', count: 3},
+    {text: 'Generative AI emerging as a structural break in innovation management', count: 2},
+    {text: 'Explicit gap: no unified model linking innovation management, resilience, and sustainability', count: 3}
+  ],
+  categories: {
+    A: [
+      {title:'Green AI, strategic flexibility, and open innovation in manufacturing SMEs',meta:'TL Le - Journal of Manufacturing Technology Management, 2026',theories:['Dynamic Capabilities'],method:'Quantitative/SEM',alert:1,finding:'Green AI requires strategic flexibility and open innovation to convert into sustainable performance. Neither mediator alone is sufficient.'},
+      {title:'Digital innovation capability and sustainable performance via knowledge absorption and diffusion',meta:'W Xu, D Inthurit - Sustainable Futures, 2026',theories:['Dynamic Capabilities','Knowledge-based view'],method:'Quantitative/SEM',alert:1,finding:'Sequential mediation: digital capability to knowledge absorption to diffusion to sustainable performance. Skipping either step breaks the chain.'},
+      {title:'Integrating AI and aesthetic technologies: the convergent knowledge innovation model',meta:'G Schiuma et al. - European Journal of Innovation Management, 2026',theories:['Knowledge-based view'],method:'Case study',alert:2,finding:'Sustainable innovation requires dialogic balance between AI-driven and creative capabilities. Firms treating these as competing underperform.'},
+      {title:'Peer effect in corporate green innovation and its impact on sustainability performance',meta:'J Huang, Z Wang - Management Research Review, 2026',theories:['Institutional theory'],method:'Quantitative/panel',alert:4,finding:"Firms' green innovation is shaped by peer behaviour; this peer effect positively amplifies sustainability performance outcomes."},
+      {title:'Digital technologies and social sustainability in supply chains: evidence from interfirm spillovers',meta:'S Sun, L Peng, W Li - Production Planning and Control, 2026',theories:['Spillover theory','Dynamic Capabilities'],method:'Quantitative/empirical',alert:4,finding:'Digital innovation by upstream and downstream partners spills over to improve a focal firm social sustainability.'},
+      {title:'Environmental orientation on green innovation performance in tourism SMEs under digital transformation',meta:'S Akhtar, H Tian et al. - Strategic Analysis and Strategic Management, 2026',theories:['Dynamic Capabilities','Knowledge-based view'],method:'Quantitative/SEM',alert:6,finding:'Green knowledge management mediates between environmental orientation and green innovation performance in tourism SMEs.'},
+      {title:'How artificial intelligence is reshaping innovation management: evidence from pre- and post-generative AI research',meta:'JJC Proenca et al. - Sci, 2026',theories:['Dynamic Capabilities','Knowledge-based view'],method:'Systematic review',alert:7,finding:'Generative AI is reshaping how organisations design innovation strategies and generate knowledge - a structural break in innovation management practice.'},
+      {title:'Sustainability gets smarter: competitive pressure and AI leading the way',meta:'JM Lopes et al. - Resources and Environmental Management, 2026',theories:['Institutional theory','Dynamic Capabilities'],method:'Quantitative/survey',alert:7,finding:'Competitive pressure and AI jointly drive sustainability implementation through marketing, process, and organisational innovation as internal pathways.'},
+      {title:'Identifying innovation in environmental management in higher education: an AI text mining-driven model',meta:'T Kurrahman, BL Nguyen et al. - International Journal of Sustainability in Higher Education, 2026',theories:['Institutional theory'],method:'AI text mining',alert:8,gap:true,isNew:true,finding:'AI-driven text mining bridges the gap between environmental management policy and practice in higher education.'}
+    ],
+    B: [
+      {title:'A strategic framework for sustainable technological innovation in volatile environments',meta:'K Lakkhongkha, T Tantiathimongkhon - Cybernetics and Innovations, 2026',theories:['Dynamic Capabilities'],method:'Quantitative',alert:2,finding:'Long-term sustainability requires synergy of digital leadership and collaborative approaches. Volatility makes this synergy essential.'},
+      {title:'Sustainability in BPM: research landscape and theoretical implications',meta:'S Dallavalle et al. - Sustainable Development, 2026',theories:[],method:'Systematic review',alert:1,gap:true,finding:'BPM-sustainability literature is fragmented. Three underexplored intersections: process innovation, sustainability governance, digital transformation.'},
+      {title:'Innovation management practices - Interface, Patagonia, and Vestas Wind Systems',meta:'N Ibrahimova - International Conference on Smart Environment, 2026',theories:[],method:'Multiple case study',alert:3,finding:'Sustainability-driven innovation requires intentional leadership and systematic process redesign. Incremental improvement is insufficient.'},
+      {title:'Does sustainable project management drive green innovation? Mediating role of stakeholder pressure and digital monitoring',meta:'MS Ahmad et al. - Social Science Review, 2026',theories:['Stakeholder theory'],method:'Quantitative/SEM',alert:4,finding:'Sustainable project management drives green innovation through stakeholder pressure and digital monitoring.'},
+      {title:'From craft to design 4.0: design thinking toward sustainable strategic advantage',meta:'M Falahat et al. - International Business and Management, 2026',theories:['Design thinking','Resource-based view'],method:'Conceptual/review',alert:4,finding:'Design-based approaches combining human-centred thinking, technological extension, and sustainability governance generate durable competitive advantage.'},
+      {title:'Business model innovation through sustainability integration: cases from the sharing economy in Iraq',meta:'MF Almasoodi, S Rahman - 2026',theories:['Business model innovation'],method:'Case study',alert:4,finding:'Integrating sustainability into business model innovation in emerging sharing economy platforms strengthens competitive positioning.'},
+      {title:'Sustainability-oriented cooperation networks in the automotive industry: circular practices in a Portuguese industrial ecosystem',meta:'C Ribeiro, M Franco - Business Strategy and the Environment, 2026',theories:['Stakeholder theory','Network theory'],method:'Case study',alert:5,finding:'Inter-firm cooperation networks translate sustainability commitments into concrete circular economy actions including joint waste management.'},
+      {title:'Planning for circular economy transitions in emerging economies: a systematic review of business model innovation',meta:'N Chotisarn, T Phuthong - Planning, 2026',theories:['Business model innovation'],method:'Systematic review',alert:6,gap:true,finding:'Circular economy business model innovation is viable in emerging economies but practical guidance for practitioners remains thin.'},
+      {title:'Strategic innovation in operations management to enhance SME performance',meta:'O Hernandez Castorena, GC Lopez-Torres et al. - Measuring Business Excellence, 2026',theories:['Dynamic Capabilities'],method:'Survey/quantitative',alert:6,finding:'Strategic innovation practices jointly drive SME performance. No single practice is sufficient alone.'},
+      {title:'Innovation, sustainability, and strategic leadership in global transformation',meta:'M Asbari, D Novitasari - JUBISMA, 2026',theories:['Strategic leadership theory'],method:'Conceptual/case',alert:7,finding:'Successful sustainable innovation requires alignment between innovation efforts, risk management, and social responsibility.'},
+      {title:'Digital innovation and sustainability in the construction industry: a systematic literature review',meta:'M Foroozanfar et al. - Smart and Sustainable Built Environment, 2026',theories:[],method:'Systematic review',alert:7,gap:true,finding:'Despite accelerating research activity, translation of digital innovation into sustainable construction practice remains limited.'},
+      {title:'Diagnosing the management of digital circular economy for sustainable innovation in Algeria',meta:'A Sakhri - 2026',theories:['Dynamic Capabilities'],method:'Qualitative/diagnostic',alert:8,isNew:true,finding:'Digital circular economy management drives sustainable innovation outcomes but adoption remains uneven in emerging economies.'},
+      {title:'Investigating the impact of sustainable supply chain management on operational efficiency through mediation of green process innovation',meta:'AA Raza - 2026',theories:['Stakeholder theory','Resource-based view'],method:'Quantitative/SEM',alert:8,isNew:true,finding:'Green process innovation fully mediates between SSCM and operational efficiency. Sustainability practices have no direct effect without the innovation mediator.'}
+    ],
+    C: [
+      {title:'Adaptive innovation management: a resilience approach in uncertainty',meta:'O Kalinichenko, I Makarchuk - Public Management and Policy, 2026',theories:['Resilience theory'],method:'Conceptual',alert:3,gap:true,finding:'Innovation management is a resilience-formation tool, but no universal theoretical model yet explains this relationship.'},
+      {title:'Sustainable innovation in management and entrepreneurship using Industry 4.0',meta:'BK Sharma et al. - International Journal of Innovation Science, 2026',theories:['Entrepreneurship theory'],method:'Editorial/conceptual',alert:3,finding:'Industry 4.0 technologies do not automatically produce sustainability outcomes. Management and entrepreneurship are the critical mediating domains.'},
+      {title:'Building resilience: sustainability and innovation accounting in enterprise risk management - Jordanian SMEs',meta:'M Al-Nimer et al. - International Journal of Business Performance Management, 2026',theories:['Resource-based view'],method:'Quantitative/SEM',alert:2,finding:'Innovation capability and corporate sustainable development jointly improve enterprise risk management and organisational performance in SMEs.'},
+      {title:'The agile advantage: aligning talent management with risk mitigation for sustainability',meta:'C Radu, DI Damian, M Mazare - 2026',theories:['Resilience theory','Resource-based view'],method:'Quantitative/predictive',alert:5,finding:'Talent management agility scores predict ESG risk levels at national level, linking human capital agility to sustainability risk mitigation.'}
+    ],
+    D: [
+      {title:'Digital innovation capability via knowledge absorption and diffusion (KM lens)',meta:'W Xu, D Inthurit - Sustainable Futures, 2026',theories:['Knowledge-based view','Absorptive capacity'],method:'Quantitative/SEM',alert:1,finding:'Absorptive capacity is the micro-foundation for how firms convert digital innovation into sustainability performance.'},
+      {title:'Sustainability in BPM: knowledge and governance dimension',meta:'S Dallavalle et al. - Sustainable Development, 2026',theories:['Knowledge-based view'],method:'Systematic review',alert:1,finding:'Process innovation and sustainability governance are knowledge-intensive activities poorly integrated in current BPM frameworks.'},
+      {title:'Knowledge management, organisational learning and innovation: recommendations for the public sector',meta:'HM Bousquet et al. - Gestao e Producao, 2026',theories:['Knowledge-based view','Organisational learning'],method:'Conceptual/review',alert:2,finding:'KM and organisational learning enable innovation in public sector organisations, but the link requires deliberate management practices.'},
+      {title:'Driving business sustainability through leadership, knowledge, and commitment: mediating role of innovation culture',meta:'RA Wibowo et al. - International Business and Management, 2026',theories:['Knowledge-based view','Leadership theory'],method:'Quantitative/SEM',alert:4,finding:'Visionary leadership and knowledge management drive sustainable performance indirectly through innovation culture as mediator.'},
+      {title:'Environmental knowledge, knowledge capability, sustainable innovation, and innovation orientation on product innovation',meta:'GO Olise, T Atan - 2026',theories:['Knowledge-based view','Resource-based view'],method:'Quantitative/empirical',alert:7,gap:true,finding:'Environmental knowledge and knowledge capability jointly drive sustainable product innovation. Western-economy bias in sustainability literature identified as a gap.'},
+      {title:'GHRM and green innovation on sustainability of green financing through mediation of top management support',meta:'P Konisah, MI Fasa, AH Syarif - Jurnal Manajemen, 2026',theories:['Knowledge-based view','Stakeholder theory'],method:'Quantitative/SEM',alert:8,isNew:true,finding:'Top management support mediates between GHRM, green innovation, and green financing sustainability.'},
+      {title:'Challenges of integrating sustainability in management education: a 25-year review of institutional logics, paradoxes and sensemaking',meta:'S Grande, F Ricciardi et al. - International Journal of Management Reviews, 2026',theories:['Institutional logics','Sensemaking theory'],method:'Systematic review',alert:8,gap:true,isNew:true,finding:'Despite 25 years of effort, sustainability integration in management education remains contested. Institutional logics and sensemaking failures explain persistent resistance.'}
+    ]
+  }
+};
+
+var BAR = {A:'#0E6655', B:'#5B2C6F', C:'#784212', D:'#922B21'};
+var CLBL = {A:'A - Digital innovation', B:'B - Strategic frameworks', C:'C - Resilience', D:'D - Knowledge mgmt'};
+
+function loadState() {
+  try {
+    var raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch(e) {}
+  return JSON.parse(JSON.stringify(SEED));
+}
+
+function saveState() {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+}
+
+var state = loadState();
+
+function showPanel(id) {
+  document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('on'); });
+  document.querySelectorAll('.nav').forEach(function(n){ n.classList.remove('on'); });
+  document.getElementById('panel-'+id).classList.add('on');
+  var navEl = document.getElementById('nav-'+id);
+  if (navEl) navEl.classList.add('on');
+  window.scrollTo(0,0);
+}
+
+function openGaps() { document.getElementById('gmodal').classList.add('open'); }
+function closeGaps() { document.getElementById('gmodal').classList.remove('open'); }
+
+function gotoPanel(id) {
+  closeGaps();
+  showPanel(id);
+}
+
+function scholarUrl(t) { return 'https://scholar.google.com/scholar?q=' + encodeURIComponent(t); }
+
+function renderPills(p) {
+  var h = '';
+  (p.theories||[]).forEach(function(t){ h += '<span class="pill pt">'+t+'</span>'; });
+  if (p.method) h += '<span class="pill pm">'+p.method+'</span>';
+  if (p.gap) h += '<span class="pill pg">Identifies gap</span>';
+  h += '<span class="pill pa">Alert '+p.alert+'</span>';
+  if (p.isNew) h += '<span class="pill pn">New</span>';
+  return h;
+}
+
+function renderOverview() {
+  var high = 0;
+  Object.keys(state.categories).forEach(function(k){ high += state.categories[k].length; });
+  var counts = {};
+  Object.keys(state.categories).forEach(function(k){ counts[k] = state.categories[k].length; });
+  var vals = Object.keys(counts).map(function(k){ return counts[k]; });
+  var maxC = Math.max.apply(null, vals.concat([1]));
+
+  var h = '<div class="stats">';
+  h += '<div class="scard"><div class="snum">'+state.totalPapers+'</div><div class="slbl">Papers reviewed</div></div>';
+  h += '<div class="scard"><div class="snum">'+high+'</div><div class="slbl">High relevance</div></div>';
+  h += '<div class="scard"><div class="snum">'+state.alertCount+'</div><div class="slbl">Alerts processed</div></div>';
+  h += '<div class="scard click" id="gaps-stat-card"><div class="snum">4</div><div class="slbl">Research gaps &#8599;</div></div>';
+  h += '</div>';
+
+  h += '<div class="sbox"><div class="blbl">Cross-alert signals</div>';
+  state.signals.forEach(function(s){
+    h += '<div class="sigrow"><span class="sign">'+Math.round(s.count)+'</span><span>'+s.text+'</span></div>';
+  });
+  h += '</div>';
+
+  h += '<div class="sbox"><div class="blbl">Theme distribution</div>';
+  Object.keys(counts).forEach(function(k){
+    var w = Math.round(counts[k]/maxC*100);
+    h += '<div class="trow"><span class="tlbl">'+CLBL[k]+'</span>';
+    h += '<div class="tbwrap"><div class="tbar" style="width:'+w+'%;background:'+BAR[k]+';"></div></div>';
+    h += '<span class="tcnt">'+counts[k]+'</span></div>';
+  });
+  h += '</div>';
+
+  document.getElementById('panel-overview').innerHTML = h;
+  var gc = document.getElementById('gaps-stat-card');
+  if (gc) gc.addEventListener('click', openGaps);
+}
+
+function renderPapers(key) {
+  var papers = state.categories[key] || [];
+  var el = document.getElementById('papers-'+key);
+  if (!el) return;
+  if (papers.length === 0) {
+    el.innerHTML = '<p style="color:#9B948D;font-style:italic;padding:10px 0;">No papers yet in this category.</p>';
+    return;
+  }
+  var h = '';
+  papers.forEach(function(p){
+    h += '<div class="pcard">';
+    h += '<div class="ptit">'+p.title+'</div>';
+    h += '<div class="pmeta">'+p.meta+'</div>';
+    h += '<div class="pills">'+renderPills(p)+'</div>';
+    h += '<div class="pfind"><strong>Finding: </strong>'+p.finding+'</div>';
+    h += '<div class="plinks">';
+    h += '<a class="plink pl-gs" href="'+scholarUrl(p.title)+'" target="_blank" rel="noopener">Search Google Scholar</a>';
+    if (p.doi) h += '<a class="plink pl-doi" href="https://doi.org/'+p.doi+'" target="_blank" rel="noopener">DOI Link</a>';
+    h += '</div></div>';
+  });
+  el.innerHTML = h;
+}
+
+function renderNavBadges() {
+  Object.keys(state.categories).forEach(function(k){
+    var el = document.getElementById('nb-'+k);
+    if (el) el.textContent = state.categories[k].length;
+  });
+}
+
+function renderAll() {
+  renderOverview();
+  ['A','B','C','D'].forEach(renderPapers);
+  renderNavBadges();
+}
+
+function buildPrompt(alertText) {
+  return 'Please analyse this Google Scholar alert and return a JSON block I can import into my tracker.\n\nUse this exact format (no markdown outside the code fence):\n\n```json\n{\n  "totalPapers": <number of all papers in alert>,\n  "alertNumber": ' + (state.alertCount + 1) + ',\n  "highRelevance": [\n    {\n      "title": "<clean title, no [PDF] or [HTML] tags>",\n      "meta": "<Authors - Journal, Year>",\n      "category": "<A, B, C, or D>",\n      "theories": ["<theory name>"],\n      "method": "<method in 3 words>",\n      "finding": "<core finding, max 25 words>",\n      "gap": <true if paper identifies a research gap, else false>,\n      "doi": "<DOI string if you are confident it is correct, else null>"\n    }\n  ],\n  "newSignals": ["<new cross-alert pattern if any, else empty array>"]\n}\n```\n\nCategories:\nA = Digital innovation capability and sustainable performance\nB = Strategic frameworks for sustainable technological innovation\nC = Resilience, adaptability and innovation under uncertainty\nD = Knowledge management and organisational learning for innovation\n\nFor the doi field: only include if confident it is correct. A missing DOI is better than a wrong one.\n\nAlert text:\n' + alertText;
+}
+
+function ingest(parsed) {
+  var alertNum = parsed.alertNumber || (state.alertCount + 1);
+  state.alertCount = Math.max(state.alertCount, alertNum);
+  state.totalPapers += (parsed.totalPapers || 0);
+  var added = parsed.highRelevance || [];
+  added.forEach(function(p){
+    var cat = p.category;
+    if (['A','B','C','D'].indexOf(cat) === -1) return;
+    p.alert = alertNum;
+    p.isNew = true;
+    state.categories[cat].push(p);
+  });
+  (parsed.newSignals || []).forEach(function(s){
+    if (s && s.trim()) state.signals.push({text: s.trim(), count: 1});
+  });
+  state.signals.sort(function(a,b){ return b.count - a.count; });
+  saveState();
+  return added.length;
+}
+
+// Wire up navigation
+document.getElementById('nav-overview').addEventListener('click', function(){ showPanel('overview'); });
+document.getElementById('nav-catA').addEventListener('click', function(){ showPanel('catA'); });
+document.getElementById('nav-catB').addEventListener('click', function(){ showPanel('catB'); });
+document.getElementById('nav-catC').addEventListener('click', function(){ showPanel('catC'); });
+document.getElementById('nav-catD').addEventListener('click', function(){ showPanel('catD'); });
+document.getElementById('nav-add').addEventListener('click', function(){ showPanel('add'); });
+document.getElementById('nav-settings').addEventListener('click', function(){ showPanel('settings'); });
+
+// Gaps modal
+document.getElementById('mclose-btn').addEventListener('click', closeGaps);
+document.getElementById('gmodal').addEventListener('click', function(e){ if(e.target===this) closeGaps(); });
+document.getElementById('gi-A').addEventListener('click', function(){ gotoPanel('catA'); });
+document.getElementById('gi-B').addEventListener('click', function(){ gotoPanel('catB'); });
+document.getElementById('gi-C').addEventListener('click', function(){ gotoPanel('catC'); });
+document.getElementById('gi-D').addEventListener('click', function(){ gotoPanel('catD'); });
+
+// Generate prompt
+document.getElementById('gen-btn').addEventListener('click', function(){
+  var text = document.getElementById('alert-input').value.trim();
+  if (!text) { document.getElementById('gen-status').textContent = 'Please paste alert text first.'; return; }
+  var prompt = buildPrompt(text);
+  document.getElementById('prompt-text').textContent = prompt;
+  document.getElementById('prompt-output').style.display = 'block';
+  document.getElementById('gen-status').textContent = '';
+});
+
+// Copy prompt
+document.getElementById('copy-btn').addEventListener('click', function(){
+  var text = document.getElementById('prompt-text').textContent;
+  navigator.clipboard.writeText(text).then(function(){
+    document.getElementById('copy-status').textContent = 'Copied!';
+    document.getElementById('copy-status').className = 'stmsg stok';
+    setTimeout(function(){ document.getElementById('copy-status').textContent=''; }, 2000);
+  }).catch(function(){
+    document.getElementById('copy-status').textContent = 'Copy failed - please select and copy manually.';
+    document.getElementById('copy-status').className = 'stmsg sterr';
+  });
+});
+
+// Import JSON
+document.getElementById('import-btn').addEventListener('click', function(){
+  var raw = document.getElementById('json-input').value.trim().replace(/```json|```/g,'').trim();
+  var st = document.getElementById('import-status');
+  var banner = document.getElementById('add-banner');
+  if (!raw) { st.textContent = 'Please paste the JSON first.'; return; }
+  var parsed;
+  try { parsed = JSON.parse(raw); }
+  catch(e) { st.textContent = 'Invalid JSON - check you copied the full block.'; return; }
+  var added = ingest(parsed);
+  renderAll();
+  document.getElementById('alert-input').value = '';
+  document.getElementById('json-input').value = '';
+  document.getElementById('prompt-output').style.display = 'none';
+  st.textContent = '';
+  banner.className = 'banner bok';
+  banner.textContent = 'Alert ' + state.alertCount + ' imported - ' + added + ' high-relevance paper' + (added!==1?'s':'') + ' added.';
+  showPanel('overview');
+});
+
+// Export
+document.getElementById('export-btn').addEventListener('click', function(){
+  var blob = new Blob([JSON.stringify(state, null, 2)], {type:'application/json'});
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'scholar-tracker-backup.json';
+  a.click();
+});
+
+// Import file
+document.getElementById('import-file-btn').addEventListener('click', function(){
+  document.getElementById('import-file').click();
+});
+document.getElementById('import-file').addEventListener('change', function(e){
+  var file = e.target.files[0];
+  if (!file) return;
+  var reader = new FileReader();
+  reader.onload = function(ev){
+    try {
+      var imported = JSON.parse(ev.target.result);
+      if (!imported.categories || !imported.signals) throw new Error('Invalid backup file');
+      state = imported;
+      saveState();
+      renderAll();
+      alert('Data imported successfully.');
+    } catch(err) { alert('Import failed: ' + err.message); }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+});
+
+// Reset
+document.getElementById('reset-btn').addEventListener('click', function(){
+  if (confirm('This will permanently delete all your tracker data. Are you sure?')) {
+    state = JSON.parse(JSON.stringify(SEED));
+    saveState();
+    renderAll();
+    showPanel('overview');
+  }
+});
+
+renderAll();
+
+})();
+</script>
+</body>
+</html>
 /* paper cards */
 .pcard{background:#fff;border:1px solid #E2DDD5;border-radius:10px;padding:13px 15px;margin-bottom:9px;box-shadow:0 1px 3px rgba(0,0,0,.06);}
 .ptit{font-size:13px;font-weight:600;color:#1A1714;margin-bottom:2px;line-height:1.4;}
